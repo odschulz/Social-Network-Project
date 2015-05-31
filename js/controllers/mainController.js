@@ -29,5 +29,5 @@ app.controller(
                 $scope.userPreviewShown = undefined;
             };
 
-
+            $scope.friendsRepo = {};
         }]);
