@@ -1,0 +1,91 @@
+<li ng-repeat="post in posts" class="media">
+    <div class="well post-container">
+        <div class="media-left">
+            <a href="#/users/{{post.author.username}}">
+                <img ng-src="{{post.author.profileImageData}}" default-image="{{defaultImage}}"
+                     class="media-object post-author-image" alt="Profile Image">
+            </a>
+        </div>
+        <div class="media-body position-relative">
+            <h4 class="media-heading post-header">
+                <a href="#/users/{{post.author.username}}">{{post.author.name}}</a>
+                <span class="position-relative"><div user-preview ng-if='!userPreviewShown === post.author.username'></div></span>
+                <span ng-if="!isOwnWall">posted on
+                    <a href="#/users/{{post.author.username}}">{{post.wallOwner.name}}</a>'s wall
+                    <span class="position-relative"><div user-preview ng-if='userPreviewShown === post.wallOwner.username'></div></span>
+                </span>
+            </h4>
+            <div class="post-date">{{post.date | date: "HH:mm, dd MMM, yy"}}</div>
+            <!--edit----and-----delete-------->
+            <div ng-if="isOwnWall" class="btn-group drop-down post-caret" role="group">
+                <span type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="fa fa-chevron-down drop-down-post-caret"></span>
+                </span>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li ng-if="post.author.username === me.username" ng-click="post.isBeingEdited = true; post.postEditedContent = post.postContent"><a>Edit</a></li>
+                    <li ng-if="post.author.username === me.username || isOwnWall"><a ng-click="deletePostById(post)">Delete</a></li>
+                </ul>
+            </div>
+            <p ng-if="!post.isBeingEdited">{{post.postContent}}</p>
+            <form ng-if="post.isBeingEdited" class="form-horizontal" ng-submit="editPostById(post)" name="editPostForm">
+                <div class="add-comment-container">
+                    <textarea ng-model="post.postEditedContent" ng-minlength="1" placeholder="Post to wall" id="wall-post-input" required></textarea>
+                    <button ng-click="post.isBeingEdited = false;" class="btn btn-warning">Cancel</button>
+                    <button ng-disabled="editPostForm.$invalid" class="btn btn-info">Add</button>
+                </div>
+            </form>
+            <!--edit----and-----delete-------->
+            <div>
+                <a href="" ng-if="!post.liked && (post.author.isFriend || post.author.username === me.username)" ng-click="likePost(post)">Like</a>
+                <a href="" ng-if="post.liked && (post.author.isFriend || post.author.username === me.username)" ng-click="unlikePost(post)">Unlike</a>
+                <span class="fa fa-thumbs-o-up"></span>
+                <span>{{post.likesCount}}</span>
+            </div>
+            <hr class="no-top-margin"/>
+            <div>
+                <form ng-if="post.author.isFriend" user-controller class="form-horizontal" ng-submit="addCommentToPost(post)" name="commentForm">
+                    <div class="add-comment-container">
+                        <img ng-src="{{me.profileImage}}" default-image="{{defaultImage}}" alt="Profile image"
+                             class="add-comment-image"/>
+                        <textarea ng-model="newComment[post.id]"  ng-minlength="1" class="comment-input"></textarea>
+                        <button class="add-comment-button">Add</button>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Nested media object -->
+            <div>
+                <span>Total comments: {{post.totalCommentsCount}}</span>
+                            <span ng-if="post.totalCommentsCount > post.comments.length
+                            ">
+                                <a href="" ng-click="getPostComments(post)">View All</a>
+                            </span>
+                            <span ng-if="commentsViews.indexOf(post.id) > -1">
+                                <a href="" ng-click="getPostCommentsPreview(post)">View Less</a>
+                            </span>
+            </div>
+            <div ng-repeat="comment in post.comments" class="media">
+                <div class="media-left">
+                    <a href="#/users/{{comment.author.name}}">
+                        <img ng-src="{{comment.author.profileImageData}}" default-image="{{defaultImage}}"
+                             class="media-object comment-author-image" alt="Profile Image">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading comment-header">
+                        <a href="#/users/{{comment.author.name}}">{{comment.author.name}}</a>
+                    </h4>
+                    <div class="comment-date">{{comment.date | date: "HH:mm, dd MMM, yy"}}</div>
+                    <p>{{comment.commentContent}}</p>
+                    <div>
+                        <a href="" ng-if="!comment.liked" ng-click="likeComment(post, comment)">Like</a>
+                        <a href="" ng-if="comment.liked" ng-click="unlikeComment(post, comment)">Unlike</a>
+                        <span class="fa fa-thumbs-o-up"></span>
+                        <span>{{comment.likesCount}}</span>
+                        <hr class="no-top-margin no-bottom-margin"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,14 @@
+<div class="well">
+    <h2 id="friends-preview-header">
+        <a href="#/users/{{currentUser}}/friends/">Friends - {{friendsPreviewData.totalCount}} total</a>
+    </h2>
+    <div class="row">
+        <div ng-repeat="friend in friendsPreviewData" class="col-xs-4">
+            <a href="#/users/{{friend.username}}">
+                <img ng-src="{{friend.profileImageData}}" default-image="{{defaultImage}}"
+                     alt="Profile image" class="search-result-image media-object"/>
+                <h3 class="friend-preview-name">{{friend.name}}</h3>
+            </a>
+        </div>
+    </div>
+</div>

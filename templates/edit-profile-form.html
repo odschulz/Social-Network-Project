@@ -1,0 +1,102 @@
+<header user-header></header>
+
+<main class="container" edit-user-controller ng-init="getUserData()">
+    <div class="row col-lg-10 col-lg-offset-1">
+        <form class="form-horizontal" name="editProfileForm" ng-submit="editProfile()" id="edit-profile-form">
+            <fieldset>
+                <legend>Edit profile</legend>
+
+                <!--background pic-->
+                <div class="col-lg-12">
+                   <div class="well">
+                       <div class="form-group cover-image-container">
+                           <img class="img-responsive" ng-src="{{userData.coverImageData}}" default-image="{{defaultImage}}"
+                                id="cover-image" required>
+                           <div >
+                               <span>Size limit: 1024KB</span>
+                               <div>
+                                   <input type="file" id="cover-image-button"
+                                          onchange="angular.element(this).scope().putImageInUserData(this)" class="hidden"/>
+                                   <label for="cover-image-button" class="btn btn-info">Select file</label>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+                </div>
+
+                <!--personal info-->
+                <div class="col-lg-6">
+                    <div class="well">
+                        <!--name-->
+                        <div class="form-group">
+                            <label for="inputName" class="col-lg-2 control-label">Name</label>
+                            <div class="col-lg-10">
+                                <input ng-model="userData.name" type="text" class="form-control"
+                                       id="inputName" placeholder="Name" required>
+                            </div>
+                        </div>
+                        <!--email-->
+                        <div class="form-group">
+                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-10">
+                                <input ng-model="userData.email" type="email" class="form-control"
+                                       id="inputEmail" placeholder="Email" required>
+                            </div>
+                        </div>
+                        <!--gender-->
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Gender</label>
+                            <div class="col-lg-10">
+                                <label class="radio-inline">
+                                    <input ng-model="userData.gender" ng-value="1" type="radio" name="gender" value="Male" required>
+                                    Male
+                                </label>
+                                <label class="radio-inline">
+                                    <input ng-model="userData.gender" ng-value="2" type="radio" name="gender" value="Female" required>
+                                    Female
+                                </label>
+                                <label class="radio-inline">
+                                    <input ng-model="userData.gender" ng-value="0" type="radio" name="gender" value="Other" required>
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--profile pic-->
+                <div class="col-lg-6">
+                    <div class="well">
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <img class="image-responsive" id="profile-image" ng-src="{{userData.profileImageData}}"
+                                     default-image="{{defaultImage}}" required>
+                            </div>
+                            <div class="col-xs-6">
+                                <h2>Profile image</h2>
+                                <span>Size limit: 128KB</span>
+                            </div>
+                            <div class="col-xs-12">
+                                <input type="file" id="profile-image-button"
+                                       onchange="angular.element(this).scope().putImageInUserData(this)" class="hidden"/>
+                                <label for="profile-image-button" class="btn btn-info" >Select file</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--submit & cancel buttons-->
+                <div class="col-lg-12">
+                    <div class="well" id="edit-profile-submit-group">
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <button type="button" ng-click="refreshEditProfilePage()" class="btn btn-warning">Reset</button>
+                                <button type="submit" ng-disabled="editProfileForm.$invalid" class="btn btn-info">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</main>

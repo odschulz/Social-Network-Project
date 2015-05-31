@@ -1,0 +1,84 @@
+<nav ng-init="getMyProfilePreviewData()" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <!--collapse button-->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#user-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--header-->
+            <a class="navbar-brand" href="#/">Social Network</a>
+        </div>
+
+        <!--collapsable navigation-->
+        <div class="collapse navbar-collapse" id="user-navbar">
+
+            <!--search bar-->
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" ng-model="searchPhrase" ng-change="searchForUsers()"
+                           ng-blur="clearSearchResults()" class="form-control" placeholder="Find...">
+                </div>
+                <ul ng-if="searchResults" class="list-unstyled" id="search-results">
+                    <li ng-repeat="user in searchResults">
+                        <a href="#/users/{{user.username}}/">
+                            <img ng-src="{{user.profileImageData}}" default-image="{{defaultImage}}"
+                                 alt="Profile image" class="search-result-image"/>
+                            <span class="username">{{user.name}}</span>
+                        </a>
+                        <hr class="delimiter"/>
+                    </li>
+                </ul>
+            </form>
+
+            <!--navigation-->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#/users/{{me.username}}/" id="profile-data-navbar">
+                        <div>
+                            <img ng-src="{{me.profileImage}}" default-image="{{defaultImage}}" alt="Profile image"
+                                 id="profile-image-navbar"/>
+                            <span>{{me.fullName}}</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/" data-toggle="tooltip" data-placement="bottom" title="News feed">
+                        <span class="fa fa-home fa-lg"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/requests/" friend-controller ng-init="getFriendRequests()"
+                       data-toggle="tooltip" data-placement="bottom" title="Friend requests">
+                        <span class="fa fa-user-plus fa-lg"></span>
+                        <span ng-if="pendingRequests.length > 0"  class="fa fa-exclamation-circle" id="request-notification"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/users/{{me.username}}/friends/" data-toggle="tooltip" data-placement="bottom" title="Friends">
+                        <span class="fa fa-users fa-lg"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/profile/" data-toggle="tooltip"
+                       data-placement="bottom" title="Edit profile">
+                        <span class="fa fa-cogs fa-lg"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/profile/password/" data-toggle="tooltip"
+                       data-placement="bottom" title="Change password">
+                        <span class="fa fa-key fa-lg"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/" ng-click="logout()" data-toggle="tooltip" data-placement="bottom" title="Logout">
+                        <span class="fa fa-sign-out fa-lg"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
